@@ -20,7 +20,7 @@ int prod;
 int cons;
 
 // Producteur
-void* producer(void)
+void* producer(void* arg)
 {
 	while (prod < MAX_PRODUCT)
 	{
@@ -39,11 +39,12 @@ void* producer(void)
 	{
 		//simulation de traitement
 	}
-	
+
+	return NULL;	
 }
 
 // Consommateur
-void* consumer(void)
+void* consumer(void* arg)
 {
 	while (cons < MAX_PRODUCT)
 	{
@@ -62,15 +63,51 @@ void* consumer(void)
 	{
 		//simulation de traitement
 	}
+
+	return NULL;
 }
 
 int main (int argc, char *argv[])
 {
+	//recevoir arguments de la ligne de commande
+	if (argc < 3)
+	{
+		printf("Cette fonction ne prend que deux arguments\n");
+		return (EXIT_FAILURE);
+	}
 
-	pthread_mutex_init(&mutex, NULL);
+	n_prod = atoi(argv[1]);
+	n_cons = atoi(argv[2]);
+
 	sem_init(&empty, 0, BUFFER); // buffer vide
 	sem_init(&full, 0, 0);	// buffer vide
+	pthread_mutex_init(&mutex_consumer, NULL);
+	pthread_mutex_init(&mutex_producer, NULL);
 
-	//recevoir arguments de la ligne de commande
+	pthread_t *prod_thread = malloc(sizeof(pthread_t) * n_prod);
+	pthread_t *cons_thread = malloc(sizeof(pthread_t) * n_cons);
 
-}
+	//lancement des threads
+
+	for (int i = 0; i < n_prod; i++)
+	{
+		pthread_create(&prod_thread[i], NULL, producer, NULL);
+	}
+	for (int i = 0; i < n_cons; i++)
+	{
+		pthread_create(&cons_thread[i], NULL, consumer, NULL);
+	}
+
+	//attente de la fin des threads
+
+	for (int i = 0; i < n_prod; i++)
+	{
+		pthread_join(prod_thread[i], NULL);
+		printf("prod %d is free\n", i);
+	}
+	for (int i = 0; i < n_cons; i++)
+	{
+		pthread_join(cons_thread[i], NULL);
+		printf("cons %d is free\n", i);
+	}
+}	

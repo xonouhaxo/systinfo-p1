@@ -3,22 +3,17 @@
 CC = gcc
 CFLAGS = -Wall -Werror 
 
-SRC = philosophes.c
-OBJ = $(SRC:.c=.o)
-COMPILE = philosophes
+SRC = $(wildcard *.c)
+OUT = $(SRC:%.c=%)
 
-all: $(COMPILE) run clean 
+SRC = philosophes.c producerConsumer.c
 
-$(COMPILE): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+all: $(OUT) clean
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $<
-
-run: $(COMPILE)
-	./$(COMPILE)
+%: %.c
+	$(CC) $(CFLAGS) -o $@ $< -lpthread
 
 clean:
-	rm -f $(COMPILE) $(OBJ)
+	rm -f $(OUT)
 
 .PHONY: clean
