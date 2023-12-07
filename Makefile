@@ -1,14 +1,13 @@
-# Makefile
-
 CC = gcc
 CFLAGS = -Wall -Werror 
 
 SRC = $(wildcard *.c)
 OUT = $(SRC:%.c=%)
+SRIPTS = $(wildcard *.sh)
 
-SRC = philosophes.c producerConsumer.c
+SRC = philosophes.c #producerConsumer.c
 
-all: $(OUT) clean
+all: $(OUT) $(SRIPTS)
 
 %: %.c
 	$(CC) $(CFLAGS) -o $@ $< -lpthread
