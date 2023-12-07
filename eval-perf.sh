@@ -12,9 +12,9 @@ num_mesures=$(seq 5)
 echo "program,num_threads,num_mesures,time" > perf_measures.csv
 
 for program in $program_names; do
-	for thread in $num_threads; do
+	for thread in ${num_threads[@]}; do
 		for i in $num_mesures; do
-			temps=$({ \time -p ./"$program" "$thread"; } 2>&1 | grep real | awk '{print $2}')
+			temps=$({ \time -p ./"$program" "$thread" "$thread"; } 2>&1 | grep real | awk '{print $2}')
 			echo $program,$thread,$i,$temps >> perf_measures.csv
 		done
 	done
