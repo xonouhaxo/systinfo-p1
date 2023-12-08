@@ -5,7 +5,7 @@ rm -f perf_measures.csv || true
 
 program_names=("philosophes") #, "producerConsumer", "readerWriter"}
 
-num_threads=(2 4 6 16 32 64)
+num_threads=(2 4 8 16 32 64)
 
 num_mesures=$(seq 5)
 
