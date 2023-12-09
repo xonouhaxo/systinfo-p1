@@ -29,4 +29,4 @@ for i in range(len(program_names)):
 	print(grouped_data['time']['std'])
 
 	plt.errorbar(grouped_data.index, grouped_data['time']['mean'], yerr=grouped_data['time']['std'], fmt='-o')
-	plt.savefig(current + ".png")
+	plt.savefig("plots/" + current + ".png")
