@@ -6,7 +6,7 @@ OUT = $(SRC:%.c=%)
 SRIPTS = $(wildcard *.sh)
 CSV = $(wildcard *.csv)
 
-SRC = philosophes.c #test-and-set.c
+SRC = philosophes.c test-and-set.c
 all: $(OUT) $(SRIPTS)
 
 %: %.c

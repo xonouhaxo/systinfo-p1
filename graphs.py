@@ -8,18 +8,18 @@ except ModuleNotFoundError:
 else:
     sns.set()
 
-program_names = ["philosophes"] #noms des programmes à évaluer
+program_names = ["philosophes", "test-and-set"] #noms des programmes à évaluer
 df = pd.read_csv("perf_measures.csv")
 #df["time"] *= 1000 #in ms 
 
 for i in range(len(program_names)):
 	current = program_names[i] #nom du programme courant
-	plt.figure()
+	plt.figure(figsize=(10, 5))
 	plt.xlabel("nb thread")
 	#plt.xscale('log', base = 2)
 	#plt.xlim(left=1, right=68)
 	plt.ylabel("temps en s")
-	plt.ylim(bottom=0, top=20)
+	#plt.ylim(bottom=0, top=20)
 	plt.title("Eval perf pour le programme: " + current)
 
 	current_df = df[df["program"] == current]
