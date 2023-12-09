@@ -16,8 +16,8 @@ for i in range(len(program_names)):
 	current = program_names[i] #nom du programme courant
 	plt.figure()
 	plt.xlabel("nb thread")
-	plt.xscale('log', base = 2)
-	plt.xlim(left=1, right=80)
+	#plt.xscale('log', base = 2)
+	#plt.xlim(left=1, right=68)
 	plt.ylabel("temps en s")
 	plt.ylim(bottom=0, top=20)
 	plt.title("Eval perf pour le programme: " + current)

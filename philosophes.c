@@ -22,8 +22,7 @@ void *philosophe(void *arg)
     int left = *id;
     int right = (left + 1) % PHILOSOPHES;
 
-    for (size_t i = 0; i < 10000000; i++)
-    {
+    for (int i = 0; i < 10000000; i++){
         // philosophe pense
         if (left < right)
         {
@@ -46,29 +45,37 @@ int main(int argc, char **argv)
 {
     if (argc < 2)
     {
-        printf("Cette fonction ne prend qu'un seul argument\n");
+        printf("Cette fonction prend un argument\n");
         return (EXIT_FAILURE);
     }
 
     PHILOSOPHES = atoi(argv[1]); //1 car 0 est le nom du programme
+    if (PHILOSOPHES <= 1){
+        return EXIT_SUCCESS;
+    }
+    
     phil = malloc(sizeof(pthread_t) * PHILOSOPHES);
     baguette = malloc(sizeof(pthread_mutex_t) * PHILOSOPHES);
 
-    int i;
-    int id[PHILOSOPHES];
+    for (int i = 0; i < PHILOSOPHES; i++){
+        pthread_mutex_init(&(baguette[i]), NULL);
+    }
 
-    for (i = 0; i < PHILOSOPHES; i++)
-    {
+    int id[PHILOSOPHES];
+    for (int i = 0; i < PHILOSOPHES; i++){
         id[i] = i;
-        pthread_mutex_init(&baguette[i], NULL);
+        pthread_create(&phil[i], NULL, &philosophe, &(id[i]));
     }
-    for (i = 0; i < PHILOSOPHES; i++)
-    {
-        pthread_create(&phil[i], NULL, &philosophe, &id[i]);
-    }
-    for (i = 0; i < PHILOSOPHES; i++)
-    {
+
+    for (int i = 0; i < PHILOSOPHES; i++){
         pthread_join(phil[i], NULL);
     }
+
+    for (int i = 0; i < PHILOSOPHES; i++){
+        pthread_mutex_destroy(&(baguette[i]));
+    }
+
+    free(phil);
+    free(baguette);
     return (EXIT_SUCCESS);
 }
